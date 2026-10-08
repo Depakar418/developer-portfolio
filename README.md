@@ -1,6 +1,8 @@
 # Depakar B Portfolio
 
-A responsive static portfolio built with HTML, CSS and JavaScript. It is ready for GitHub Pages and Vercel.
+A premium, responsive multi-page portfolio built with HTML, CSS and JavaScript. It is ready for Vercel and GitHub Pages.
+
+Pages: Home, Work, About, Plugins, and Contact.
 
 ## Local preview
 
@@ -20,6 +22,7 @@ Open `index.html` in a browser, or run a local static server.
 
 ## Before launch
 
-- Replace `hello@depakar.dev` with your preferred email address.
-- Add verified public links for plugin listings, GitHub, LinkedIn and your résumé.
-- Replace or supplement the project cards with public case-study links when permission is available.
+- Create a free Formspree form that delivers to `depakar418@gmail.com`.
+- Copy its form ID (the part after `/f/`) and replace `YOUR_FORM_ID` in `contact.html`.
+- Add verified public links for plugin listings and any public case studies when permission is available.
+- In Vercel, redeploy after pushing the updated files to GitHub.
