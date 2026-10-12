@@ -2,6 +2,10 @@
   "cleanUrls": false,
   "rewrites": [
     {
+      "source": "/work.html",
+      "destination": "/work-v2.html"
+    },
+    {
       "source": "/projects/succeedlearn",
       "destination": "/project-succeedlearn.html"
     },
@@ -16,6 +20,10 @@
     {
       "source": "/projects/scrombridge",
       "destination": "/project-scrombridge.html"
+    },
+    {
+      "source": "/projects/external-member-directory",
+      "destination": "/project-external-member-directory.html"
     },
     {
       "source": "/projects/brand-ventures",

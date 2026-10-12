@@ -1,0 +1,56 @@
+/* Transparent, large portrait treatment for the About page. */
+.about-profile-grid {
+  align-items: end;
+}
+
+.about-portrait {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: clamp(580px, 52vw, 760px);
+  margin: 0;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+.about-portrait::after {
+  display: none;
+}
+
+.about-portrait img {
+  position: relative;
+  z-index: 1;
+  width: 150%;
+  max-width: none;
+  max-height: none;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(18px 24px 34px rgba(0, 0, 0, 0.26));
+}
+
+.about-portrait-dark {
+  transform: translateX(5%);
+}
+
+body.light .about-portrait {
+  background: transparent !important;
+}
+
+@media (max-width: 780px) {
+  .about-profile-grid {
+    align-items: center;
+  }
+
+  .about-portrait {
+    min-height: 470px;
+  }
+
+  .about-portrait img {
+    width: 142%;
+    max-width: none;
+  }
+
+  .about-portrait-dark {
+    transform: translateX(4%);
+  }
+}
