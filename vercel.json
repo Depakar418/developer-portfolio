@@ -1,21 +1,51 @@
 {
-  "cleanUrls": true,
+  "cleanUrls": false,
   "rewrites": [
-    { "source": "/projects/succeedlearn", "destination": "/project-succeedlearn.html" },
-    { "source": "/projects/elearnposh", "destination": "/project-elearnposh.html" },
-    { "source": "/projects/succeed-technologies", "destination": "/project-succeed-technologies.html" },
-    { "source": "/projects/scrombridge", "destination": "/project-scrombridge.html" },
-    { "source": "/projects/brand-ventures", "destination": "/project-brand-ventures.html" },
-    { "source": "/projects/new-metador", "destination": "/project-new-metador.html" },
-    { "source": "/projects/forcefriction", "destination": "/project-forcefriction.html" },
-    { "source": "/projects/tech-ai-magazine", "destination": "/project-tech-ai-magazine.html" }
+    {
+      "source": "/projects/succeedlearn",
+      "destination": "/project-succeedlearn.html"
+    },
+    {
+      "source": "/projects/elearnposh",
+      "destination": "/project-elearnposh.html"
+    },
+    {
+      "source": "/projects/succeed-technologies",
+      "destination": "/project-succeed-technologies.html"
+    },
+    {
+      "source": "/projects/scrombridge",
+      "destination": "/project-scrombridge.html"
+    },
+    {
+      "source": "/projects/brand-ventures",
+      "destination": "/project-brand-ventures.html"
+    },
+    {
+      "source": "/projects/new-metador",
+      "destination": "/project-new-metador.html"
+    },
+    {
+      "source": "/projects/forcefriction",
+      "destination": "/project-forcefriction.html"
+    },
+    {
+      "source": "/projects/tech-ai-magazine",
+      "destination": "/project-tech-ai-magazine.html"
+    }
   ],
   "headers": [
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
       ]
     }
   ]
