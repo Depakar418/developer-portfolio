@@ -5,4 +5,20 @@
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/about.html</loc></url>
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/plugins.html</loc></url>
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/contact.html</loc></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/blog.html</loc></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/seo-aeo-geo-guide.html</loc></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/search.html</loc></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/succeedlearn</loc><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/elearnposh</loc><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/succeed-technologies</loc><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/scrombridge</loc><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/brand-ventures</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/new-metador</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/forcefriction</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/projects/tech-ai-magazine</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/formmailbox.html</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/depakar-article-grid.html</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/redigo-url-redirect-manager.html</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/seo-ledger.html</loc><priority>0.7</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/redigo-social-chat.html</loc><priority>0.7</priority></url>
 </urlset>
