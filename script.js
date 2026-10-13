@@ -7,6 +7,10 @@ if (!document.querySelector('link[href="overrides.css"]')) {
   const sheet = document.createElement('link');
   sheet.rel = 'stylesheet'; sheet.href = 'overrides.css'; document.head.append(sheet);
 }
+if (!document.querySelector('link[href="enhancements.css"]')) {
+  const enhancements = document.createElement('link');
+  enhancements.rel = 'stylesheet'; enhancements.href = 'enhancements.css'; document.head.append(enhancements);
+}
 
 const chevron = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>';
 const arrowUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6.5 10.5 12 5l5.5 5.5"/></svg>';
@@ -122,26 +126,40 @@ document.body.append(floatingWhatsapp);
 
 const projectGalleries = {
   'project-succeedlearn.html': { site: 'https://succeedlearn.com/', name: 'SucceedLEARN', intro: 'Desktop and AMP captures matched to the learning, mobile, and enquiry experiences discussed in this case study.', images: [['project-assets/succeedlearn-desktop-home.jpg', 'SucceedLEARN public desktop homepage', 'Desktop platform experience', true], ['project-assets/succeedlearn-amp-home.jpg', 'SucceedLEARN AMP homepage', 'AMP content experience'], ['project-assets/succeedlearn-amp-form.jpg', 'SucceedLEARN AMP enquiry form with submit action', 'AMP enquiry and form flow']] },
-  'project-elearnposh.html': { site: 'https://elearnposh.com/', name: 'eLearnPOSH', intro: 'Desktop and AMP captures show the public learning platform and demo journey.', images: [['project-assets/elearnposh-desktop-home.jpg', 'eLearnPOSH public desktop homepage', 'Desktop learning platform', true], ['project-assets/elearnposh-amp-home.jpg', 'eLearnPOSH AMP homepage', 'AMP content experience'], ['project-assets/elearnposh-amp-form.jpg', 'eLearnPOSH AMP demo submission form', 'AMP demo request form']] },
+  'project-elearnposh.html': { site: 'https://elearnposh.com/', name: 'eLearnPOSH', intro: 'A detailed visual record of the public compliance-learning experience, including desktop pages, webinar journeys, newsletter surfaces, registration flows, and a mobile view.', images: [['project-assets/elearnposh-posh-overview.webp', 'eLearnPOSH POSH compliance overview page', 'Compliance learning overview', true], ['project-assets/elearnposh-compliance-landing.webp', 'eLearnPOSH compliance training landing page', 'Compliance learning landing page'], ['project-assets/elearnposh-course-page.webp', 'eLearnPOSH course and learning content page', 'Course content experience'], ['project-assets/elearnposh-hero.webp', 'eLearnPOSH public homepage hero', 'Public homepage experience'], ['project-assets/elearnposh-webinar-detail.webp', 'eLearnPOSH webinar detail page', 'Webinar detail journey'], ['project-assets/elearnposh-webinar-library.webp', 'eLearnPOSH webinar library cards', 'Webinar library'], ['project-assets/elearnposh-webinar-list.webp', 'eLearnPOSH webinar listing', 'Webinar listing'], ['project-assets/elearnposh-webinar-registration.webp', 'eLearnPOSH webinar registration page', 'Webinar registration flow'], ['project-assets/elearnposh-webinar-page.webp', 'eLearnPOSH webinar information page', 'Webinar information page'], ['project-assets/elearnposh-blogs.webp', 'eLearnPOSH blog listing page', 'Blog and article discovery'], ['project-assets/elearnposh-newsletters.webp', 'eLearnPOSH newsletter listing page', 'Newsletter discovery'], ['project-assets/elearnposh-newsletter-grid.webp', 'eLearnPOSH newsletter card grid', 'Newsletter card layout'], ['project-assets/elearnposh-newsletter-page.webp', 'eLearnPOSH newsletter detail page', 'Newsletter detail experience'], ['project-assets/elearnposh-mobile-landing.webp', 'eLearnPOSH mobile compliance landing page', 'Mobile experience']] },
+  'project-scrombridge.html': { site: '', name: 'SCROMBridge', intro: 'Public views of the SCROMBridge learning-delivery experience, covering the desktop landing page, feature presentation, contact route, and mobile patterns.', images: [['project-assets/scrombridge-desktop-home.webp', 'SCROMBridge desktop home and key features', 'Desktop landing page and key features', true], ['project-assets/scrombridge-features.webp', 'SCROMBridge feature overview section', 'Feature presentation'], ['project-assets/scrombridge-contact.webp', 'SCROMBridge contact section', 'Contact and enquiry route'], ['project-assets/scrombridge-mobile-menu.webp', 'SCROMBridge mobile navigation', 'Mobile navigation'], ['project-assets/scrombridge-mobile-how-it-works.webp', 'SCROMBridge mobile how it works page', 'Mobile how it works flow']] },
   'project-succeed-technologies.html': { site: 'https://succeedtech.com/', name: 'Succeed Technologies', intro: 'Public captures show the corporate product-offerings page and the contact workflow.', images: [['project-assets/succeedtech-offerings.jpg', 'Succeed Technologies public offerings page', 'Corporate offerings page'], ['project-assets/succeedtech-contact-form.jpg', 'Succeed Technologies contact form', 'Contact and enquiry flow']] },
   'project-brand-ventures.html': { site: 'https://brandventures.in/', name: 'Brand Ventures', intro: 'Public desktop captures of the agency homepage and its lead-generation flow.', images: [['project-assets/brandventures-desktop-home.jpg', 'Brand Ventures public desktop homepage', 'Desktop homepage'], ['project-assets/brandventures-contact-form.jpg', 'Brand Ventures contact page with enquiry form', 'Contact and enquiry form']] },
   'project-forcefriction.html': { site: 'https://forcefriction.com/', name: 'ForceFriction AI', intro: 'Public desktop captures of the enterprise AI platform and assessment request flow.', images: [['project-assets/forcefriction-desktop-home.jpg', 'ForceFriction AI public desktop homepage', 'Enterprise platform homepage'], ['project-assets/forcefriction-assessment-form.jpg', 'ForceFriction AI assessment request form', 'Assessment form and lead flow']] },
   'project-tech-ai-magazine.html': { site: 'https://www.techaimag.com/', name: 'Tech AI Magazine', intro: 'Public captures show both the magazine front page and long-form reading experience.', images: [['project-assets/techai-desktop-home.jpg', 'Tech AI Magazine public desktop homepage', 'Magazine homepage'], ['project-assets/techai-article.jpg', 'Tech AI Magazine desktop article page', 'Long-form article experience']] }
 };
-const galleryKey = location.pathname.split('/').pop() || 'index.html';
+const galleryPath = location.pathname.replace(/\/+$/, '');
+const galleryAliases = {
+  '/projects/succeedlearn': 'project-succeedlearn.html',
+  '/projects/elearnposh': 'project-elearnposh.html',
+  '/projects/succeed-technologies': 'project-succeed-technologies.html',
+  '/projects/scrombridge': 'project-scrombridge.html',
+  '/projects/external-member-directory': 'project-external-member-directory.html',
+  '/projects/brand-ventures': 'project-brand-ventures.html',
+  '/projects/new-metador': 'project-new-metador.html',
+  '/projects/force-friction': 'project-forcefriction.html',
+  '/projects/tech-ai-mag': 'project-tech-ai-magazine.html'
+};
+const galleryKey = galleryAliases[galleryPath] || galleryPath.split('/').pop() || 'index.html';
 const gallery = projectGalleries[galleryKey];
 if (gallery && !document.querySelector('.project-gallery')) {
   document.querySelector('.project-showcase')?.remove();
   const story = document.querySelector('.project-story');
   if (story) {
     const cards = gallery.images.map(([src, alt, caption, wide]) => `<figure class="project-gallery-item${wide ? ' project-gallery-wide' : ''}"><img src="${src}" alt="${alt}" loading="lazy"><figcaption>${caption}</figcaption></figure>`).join('');
-    story.insertAdjacentHTML('afterend', `<section class="project-gallery"><div class="project-gallery-heading"><div><h2>Live product views.</h2><p>${gallery.intro}</p></div><a href="${gallery.site}" target="_blank" rel="noopener">Open ${gallery.name} ↗</a></div><div class="project-gallery-grid">${cards}</div></section>`);
+    const galleryAction = gallery.site ? `<a href="${gallery.site}" target="_blank" rel="noopener">Open ${gallery.name} ↗</a>` : '';
+    story.insertAdjacentHTML('afterend', `<section class="project-gallery"><div class="project-gallery-heading"><div><h2>Live product views.</h2><p>${gallery.intro}</p></div>${galleryAction}</div><div class="project-gallery-grid">${cards}</div></section>`);
   }
 }
 
 const footer = document.querySelector('.site-footer');
 if (footer) {
-  footer.innerHTML = `<div class="footer-brand"><a class="wordmark" href="index.html">DEPAKAR<span> B</span></a><p>WordPress development, plugin engineering, and search-ready digital experiences built for practical growth.</p><p class="footer-signoff">Built with curiosity, code, and too many browser tabs.</p></div><div class="footer-column"><b>Explore</b><a href="work.html">Projects</a><a href="about.html">About me</a><a href="plugins.html">Plugins</a><a href="blog.html">Insights</a></div><div class="footer-column"><b>Capabilities</b><span>WordPress development</span><span>Technical SEO · AEO · GEO</span><span>Performance &amp; analytics</span><span>Custom plugins &amp; integrations</span></div><div class="footer-contact"><b>Let’s build something useful.</b><p>Have a site, product, or workflow that needs to work better?</p><a class="footer-email" href="mailto:depakar418@gmail.com">depakar418@gmail.com</a><div class="footer-actions"><a class="footer-whatsapp-link" href="https://wa.me/919344465429" target="_blank" rel="noopener">Chat on WhatsApp</a><a href="https://www.linkedin.com/in/depakar418" target="_blank" rel="noopener">LinkedIn</a></div></div><div class="footer-base"><small>© ${new Date().getFullYear()} Depakar B</small><small>WordPress Developer · SEO · AEO · GEO</small></div>`;
+  footer.innerHTML = `<div class="footer-brand"><a class="wordmark" href="index.html">DEPAKAR<span> B</span></a><p>WordPress development, plugin engineering, and search-ready digital experiences built for practical growth.</p><p class="footer-signoff">Built with curiosity, code, and too many browser tabs.</p></div><div class="footer-column"><b>Explore</b><a href="work.html">Projects</a><a href="about.html">About me</a><a href="plugins.html">Plugins</a><a href="blog.html">Insights</a></div><div class="footer-column"><b>Capabilities</b><span>WordPress development</span><span>Technical SEO · AEO · GEO</span><span>Performance &amp; analytics</span><span>Custom plugins &amp; integrations</span></div><div class="footer-contact"><b>Let’s build something useful.</b><p>Have a site, product, or workflow that needs to work better?</p><a class="footer-email" href="mailto:depakar418@gmail.com">depakar418@gmail.com</a><div class="footer-actions"><a class="footer-whatsapp-link" href="https://wa.me/919344465429" target="_blank" rel="noopener">Chat on WhatsApp</a><a href="https://www.linkedin.com/in/depakar418" target="_blank" rel="noopener">LinkedIn</a></div><form class="footer-contact-form" action="https://formspree.io/f/mppqjgww" method="POST"><label class="sr-only" for="footer-email">Email address</label><input id="footer-email" type="email" name="email" placeholder="Your email address" required><input type="hidden" name="_subject" value="New portfolio contact from footer"><button type="submit">Contact me</button></form></div><div class="footer-base"><small>© ${new Date().getFullYear()} Depakar B</small><small>WordPress Developer · SEO · AEO · GEO</small></div>`;
 }
 
 const form = document.querySelector('[data-contact-form]');
@@ -164,4 +182,15 @@ if (form) form.addEventListener('submit', async (event) => {
   } finally {
     button.disabled = false; button.textContent = 'Send enquiry';
   }
+});
+
+if (!document.querySelector('script[src="portfolio-upgrades.js"]')) {
+  const upgrades = document.createElement('script');
+  upgrades.src = 'portfolio-upgrades.js';
+  upgrades.defer = true;
+  document.body.append(upgrades);
+}
+
+document.querySelectorAll('form[action*="YOUR_FORM_ID"]').forEach((contactForm) => {
+  contactForm.action = 'https://formspree.io/f/mppqjgww';
 });

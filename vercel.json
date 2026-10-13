@@ -6,6 +6,14 @@
       "destination": "/work-v2.html"
     },
     {
+      "source": "/technical-work",
+      "destination": "/technical-work.html"
+    },
+    {
+      "source": "/resume",
+      "destination": "/resume.html"
+    },
+    {
       "source": "/projects/succeedlearn",
       "destination": "/project-succeedlearn.html"
     },
