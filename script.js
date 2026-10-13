@@ -12,6 +12,21 @@ if (!document.querySelector('link[href="enhancements.css"]')) {
   enhancements.rel = 'stylesheet'; enhancements.href = 'enhancements.css'; document.head.append(enhancements);
 }
 
+document.addEventListener('error', (event) => {
+  const image = event.target;
+  if (!(image instanceof HTMLImageElement) || image.dataset.fallbackApplied === 'true') return;
+  image.dataset.fallbackApplied = 'true';
+  image.src = 'project-assets/project-visual-fallback.svg';
+  image.alt = 'Portfolio project interface visual';
+}, true);
+document.querySelectorAll('img').forEach((image) => {
+  if (image.complete && image.naturalWidth === 0 && image.dataset.fallbackApplied !== 'true') {
+    image.dataset.fallbackApplied = 'true';
+    image.src = 'project-assets/project-visual-fallback.svg';
+    image.alt = 'Portfolio project interface visual';
+  }
+});
+
 const chevron = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>';
 const arrowUp = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6.5 10.5 12 5l5.5 5.5"/></svg>';
 const whatsappIcon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 3.1 16.7L2 22l5.45-1.08A11 11 0 1 0 20.5 3.5Zm-8.48 16a8.85 8.85 0 0 1-4.51-1.24l-.32-.19-3.23.64.67-3.15-.21-.33a8.86 8.86 0 1 1 7.6 4.27Zm4.86-6.64c-.27-.14-1.6-.79-1.85-.88-.25-.09-.43-.14-.61.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07a7.27 7.27 0 0 1-2.14-1.32 8.06 8.06 0 0 1-1.49-1.85c-.16-.27-.02-.42.12-.56.12-.12.27-.32.4-.48.14-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.52-.45-.45-.61-.46h-.52c-.18 0-.48.07-.73.34s-.95.93-.95 2.27.98 2.64 1.12 2.82c.14.18 1.92 2.93 4.65 4.11.65.28 1.16.45 1.55.57.65.21 1.24.18 1.7.11.52-.08 1.6-.66 1.83-1.29.23-.64.23-1.18.16-1.29-.07-.12-.25-.18-.52-.32Z"/></svg>';
@@ -31,7 +46,10 @@ if (header) {
   utility.innerHTML = `<a class="header-whatsapp" href="https://wa.me/919344465429" target="_blank" rel="noopener">WhatsApp</a><button class="theme-toggle" type="button">Light</button><div class="language-picker"><button class="language-menu-button" type="button" aria-label="Choose website language" aria-expanded="false"><span class="language-flag">${flags.en}</span><span class="language-name">EN</span>${chevron}</button><div class="language-menu" role="menu" hidden>${Object.entries(languages).map(([code, label]) => `<button type="button" role="menuitem" data-language="${code}"><span class="language-flag">${flags[code]}</span>${label}</button>`).join('')}</div></div>`;
   header.append(utility);
   const themeButton = utility.querySelector('.theme-toggle');
-  if (localStorage.getItem('theme') === 'light') body.classList.add('light');
+  const savedTheme = localStorage.getItem('theme');
+  // The portfolio opens in the clean light presentation by default; a visitor's
+  // deliberate dark-mode choice is the only case that keeps the dark theme.
+  if (savedTheme !== 'dark') body.classList.add('light');
   themeButton.textContent = body.classList.contains('light') ? 'Dark' : 'Light';
   themeButton.addEventListener('click', () => {
     body.classList.toggle('light');
@@ -109,8 +127,21 @@ if (document.querySelector('.intro-band') && projects) {
       ['WordPress engineering', 'Themes & custom builds', 'Custom themes, templates, responsive components, and maintainable front-end systems built around the real requirement.'],
       ['Faster delivery', 'AMP development & integration', 'Lean AMP pages and integrations that preserve core content, usability, and responsive consistency.'],
       ['Conversion paths', 'Landing pages & campaigns', 'SEO-ready campaign and landing pages for launches, lead capture, webinars, and marketing journeys.'],
-      ['Secure foundations', 'WordPress security', 'Practical hardening through security plugins, protected login flows, 2FA, updates, backups, and maintenance checks.']
+      ['Secure foundations', 'WordPress security', 'Practical hardening through security plugins, protected login flows, 2FA, updates, backups, and maintenance checks.'],
+      ['Connected systems', 'Forms, LMS & payment integrations', 'Thoughtful implementation for lead forms, LMS workflows, payment gateways, ERP hand-offs, and campaign data capture.']
     ].forEach(([label, title, description]) => specialisationGrid.insertAdjacentHTML('beforeend', `<article data-expanded-specialisation><span>${label}</span><h3>${title}</h3><p>${description}</p></article>`));
+  }
+
+  document.querySelector('.cta-panel')?.remove();
+  const faqList = document.querySelector('.faq-list');
+  if (faqList && !faqList.dataset.expanded) {
+    faqList.dataset.expanded = 'true';
+    faqList.insertAdjacentHTML('beforeend', `
+      <details><summary>Can you improve an existing WordPress website?</summary><p>Yes. I can review page structure, performance, responsive behaviour, forms, tracking, technical SEO, and maintainability, then prioritise practical improvements instead of rebuilding without a reason.</p></details>
+      <details><summary>Can you build custom landing pages and campaigns?</summary><p>Yes. I build focused, responsive landing pages for product launches, webinars, lead capture, paid campaigns, and evergreen search content—using clear hierarchy, fast-loading patterns, and measurable conversion paths.</p></details>
+      <details><summary>Can you help with plugins, LMS, forms, and integrations?</summary><p>Yes. Work can include custom plugin or theme development, LMS and payment-gateway integration, secure contact forms, CRM or ERP hand-offs, newsletter connections, and structured registration workflows.</p></details>
+      <details><summary>How do you approach website speed and Core Web Vitals?</summary><p>I start with the page experience: unnecessary assets, image delivery, layout shifts, render-blocking code, responsive behaviour, and real conversion paths. Improvements are then tested before release and reviewed after launch where measurement is available.</p></details>
+      <details><summary>Can you support SEO after launch?</summary><p>Yes. Technical SEO support can include crawlability checks, metadata and heading structure, internal links, schema where appropriate, Search Console review, analytics setup, and content patterns designed to be easier to understand and maintain.</p></details>`);
   }
 }
 
@@ -120,9 +151,11 @@ document.body.append(scrollTop);
 window.addEventListener('scroll', () => scrollTop.classList.toggle('is-visible', window.scrollY > 500), { passive: true });
 scrollTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
-const floatingWhatsapp = document.createElement('a');
-floatingWhatsapp.className = 'floating-whatsapp'; floatingWhatsapp.href = 'https://wa.me/919344465429'; floatingWhatsapp.target = '_blank'; floatingWhatsapp.rel = 'noopener'; floatingWhatsapp.setAttribute('aria-label', 'Chat with Depakar on WhatsApp'); floatingWhatsapp.innerHTML = whatsappIcon;
-document.body.append(floatingWhatsapp);
+if (!location.pathname.endsWith('/contact.html')) {
+  const floatingWhatsapp = document.createElement('a');
+  floatingWhatsapp.className = 'floating-whatsapp'; floatingWhatsapp.href = 'https://wa.me/919344465429'; floatingWhatsapp.target = '_blank'; floatingWhatsapp.rel = 'noopener'; floatingWhatsapp.setAttribute('aria-label', 'Chat with Depakar on WhatsApp'); floatingWhatsapp.innerHTML = whatsappIcon;
+  document.body.append(floatingWhatsapp);
+}
 
 const projectGalleries = {
   'project-succeedlearn.html': { site: 'https://succeedlearn.com/', name: 'SucceedLEARN', intro: 'Desktop and AMP captures matched to the learning, mobile, and enquiry experiences discussed in this case study.', images: [['project-assets/succeedlearn-desktop-home.jpg', 'SucceedLEARN public desktop homepage', 'Desktop platform experience', true], ['project-assets/succeedlearn-amp-home.jpg', 'SucceedLEARN AMP homepage', 'AMP content experience'], ['project-assets/succeedlearn-amp-form.jpg', 'SucceedLEARN AMP enquiry form with submit action', 'AMP enquiry and form flow']] },
@@ -176,7 +209,7 @@ if (form) form.addEventListener('submit', async (event) => {
   try {
     const response = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
     if (!response.ok) throw Error();
-    form.reset(); status.textContent = 'Thanks — your message is on its way.'; status.className = 'form-status success';
+    window.location.assign('thank-you.html');
   } catch {
     status.textContent = 'That did not send. Please email depakar418@gmail.com instead.'; status.className = 'form-status error';
   } finally {
