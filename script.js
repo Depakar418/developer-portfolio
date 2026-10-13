@@ -12,19 +12,19 @@ if (!document.querySelector('link[href="enhancements.css"]')) {
   enhancements.rel = 'stylesheet'; enhancements.href = 'enhancements.css'; document.head.append(enhancements);
 }
 
-document.addEventListener('error', (event) => {
-  const image = event.target;
+function replaceBrokenImage(image) {
   if (!(image instanceof HTMLImageElement) || image.dataset.fallbackApplied === 'true') return;
   image.dataset.fallbackApplied = 'true';
-  image.src = 'project-assets/project-visual-fallback.svg';
-  image.alt = 'Portfolio project interface visual';
-}, true);
+  const visual = document.createElement('div');
+  visual.className = 'generated-visual';
+  visual.setAttribute('role', 'img');
+  visual.setAttribute('aria-label', image.alt || 'Portfolio visual');
+  visual.innerHTML = '<span>DEPAKAR B</span><strong>Web experience<br>in focus.</strong><i></i>';
+  image.replaceWith(visual);
+}
+document.addEventListener('error', (event) => replaceBrokenImage(event.target), true);
 document.querySelectorAll('img').forEach((image) => {
-  if (image.complete && image.naturalWidth === 0 && image.dataset.fallbackApplied !== 'true') {
-    image.dataset.fallbackApplied = 'true';
-    image.src = 'project-assets/project-visual-fallback.svg';
-    image.alt = 'Portfolio project interface visual';
-  }
+  if (image.complete && image.naturalWidth === 0) replaceBrokenImage(image);
 });
 
 const chevron = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="m4 6 4 4 4-4"/></svg>';
@@ -158,7 +158,7 @@ if (!location.pathname.endsWith('/contact.html')) {
 }
 
 const projectGalleries = {
-  'project-succeedlearn.html': { site: 'https://succeedlearn.com/', name: 'SucceedLEARN', intro: 'Desktop and AMP captures matched to the learning, mobile, and enquiry experiences discussed in this case study.', images: [['project-assets/succeedlearn-desktop-home.jpg', 'SucceedLEARN public desktop homepage', 'Desktop platform experience', true], ['project-assets/succeedlearn-amp-home.jpg', 'SucceedLEARN AMP homepage', 'AMP content experience'], ['project-assets/succeedlearn-amp-form.jpg', 'SucceedLEARN AMP enquiry form with submit action', 'AMP enquiry and form flow']] },
+  'project-succeedlearn.html': { site: 'https://succeedlearn.com/', name: 'SucceedLEARN', intro: 'Desktop and AMP captures matched to the learning, mobile, and enquiry experiences discussed in this case study.', images: [['project-assets/succeedlearn-desktop-home.jpg', 'SucceedLEARN public desktop homepage', 'Desktop platform experience', true], ['project-assets/succeedlearn-amp-home.jpg', 'SucceedLEARN AMP homepage', 'AMP content experience', true], ['project-assets/succeedlearn-amp-form.jpg', 'SucceedLEARN AMP enquiry form with submit action', 'AMP enquiry and form flow']] },
   'project-elearnposh.html': { site: 'https://elearnposh.com/', name: 'eLearnPOSH', intro: 'A detailed visual record of the public compliance-learning experience, including desktop pages, webinar journeys, newsletter surfaces, registration flows, and a mobile view.', images: [['project-assets/elearnposh-posh-overview.webp', 'eLearnPOSH POSH compliance overview page', 'Compliance learning overview', true], ['project-assets/elearnposh-compliance-landing.webp', 'eLearnPOSH compliance training landing page', 'Compliance learning landing page'], ['project-assets/elearnposh-course-page.webp', 'eLearnPOSH course and learning content page', 'Course content experience'], ['project-assets/elearnposh-hero.webp', 'eLearnPOSH public homepage hero', 'Public homepage experience'], ['project-assets/elearnposh-webinar-detail.webp', 'eLearnPOSH webinar detail page', 'Webinar detail journey'], ['project-assets/elearnposh-webinar-library.webp', 'eLearnPOSH webinar library cards', 'Webinar library'], ['project-assets/elearnposh-webinar-list.webp', 'eLearnPOSH webinar listing', 'Webinar listing'], ['project-assets/elearnposh-webinar-registration.webp', 'eLearnPOSH webinar registration page', 'Webinar registration flow'], ['project-assets/elearnposh-webinar-page.webp', 'eLearnPOSH webinar information page', 'Webinar information page'], ['project-assets/elearnposh-blogs.webp', 'eLearnPOSH blog listing page', 'Blog and article discovery'], ['project-assets/elearnposh-newsletters.webp', 'eLearnPOSH newsletter listing page', 'Newsletter discovery'], ['project-assets/elearnposh-newsletter-grid.webp', 'eLearnPOSH newsletter card grid', 'Newsletter card layout'], ['project-assets/elearnposh-newsletter-page.webp', 'eLearnPOSH newsletter detail page', 'Newsletter detail experience'], ['project-assets/elearnposh-mobile-landing.webp', 'eLearnPOSH mobile compliance landing page', 'Mobile experience']] },
   'project-scrombridge.html': { site: '', name: 'SCROMBridge', intro: 'Public views of the SCROMBridge learning-delivery experience, covering the desktop landing page, feature presentation, contact route, and mobile patterns.', images: [['project-assets/scrombridge-desktop-home.webp', 'SCROMBridge desktop home and key features', 'Desktop landing page and key features', true], ['project-assets/scrombridge-features.webp', 'SCROMBridge feature overview section', 'Feature presentation'], ['project-assets/scrombridge-contact.webp', 'SCROMBridge contact section', 'Contact and enquiry route'], ['project-assets/scrombridge-mobile-menu.webp', 'SCROMBridge mobile navigation', 'Mobile navigation'], ['project-assets/scrombridge-mobile-how-it-works.webp', 'SCROMBridge mobile how it works page', 'Mobile how it works flow']] },
   'project-succeed-technologies.html': { site: 'https://succeedtech.com/', name: 'Succeed Technologies', intro: 'Public captures show the corporate product-offerings page and the contact workflow.', images: [['project-assets/succeedtech-offerings.jpg', 'Succeed Technologies public offerings page', 'Corporate offerings page'], ['project-assets/succeedtech-contact-form.jpg', 'Succeed Technologies contact form', 'Contact and enquiry flow']] },
