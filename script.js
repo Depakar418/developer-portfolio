@@ -21,7 +21,8 @@ function replaceBrokenImage(image) {
   if (!(image instanceof HTMLImageElement) || image.dataset.fallbackApplied === 'true') return;
   image.dataset.fallbackApplied = 'true';
   const visual = document.createElement('div');
-  visual.className = 'generated-visual';
+  const visualNumber = [...document.images].indexOf(image) % 6;
+  visual.className = `generated-visual generated-visual-${visualNumber}`;
   visual.setAttribute('role', 'img');
   visual.setAttribute('aria-label', image.alt || 'Portfolio visual');
   visual.innerHTML = '<span>DEPAKAR B</span><strong>Web experience<br>in focus.</strong><i></i>';
@@ -103,7 +104,11 @@ const navigation = {
 function setLanguage(language) {
   root.lang = language;
   document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = language === 'en' ? englishContent[el.dataset.i18n] : (copy[language]?.[el.dataset.i18n] || englishContent[el.dataset.i18n]); });
-  document.querySelectorAll('#site-nav a').forEach((link, index) => { link.textContent = navigation[language][index] || link.textContent; });
+  const navLabelIndex = { 'index.html': 0, 'work.html': 1, 'about.html': 2, 'plugins.html': 3, 'blog.html': 4, 'search.html': 5, 'contact.html': 6 };
+  document.querySelectorAll('#site-nav a').forEach((link) => {
+    const href = link.getAttribute('href'); const index = navLabelIndex[href];
+    if (Number.isInteger(index)) link.textContent = navigation[language][index] || link.textContent;
+  });
   const pickerButton = document.querySelector('.language-menu-button');
   if (pickerButton) pickerButton.innerHTML = `<span class="language-flag">${flags[language]}</span><span class="language-name">${language.toUpperCase()}</span>${chevron}`;
   localStorage.setItem('portfolio-language', language);

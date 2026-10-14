@@ -51,8 +51,15 @@
     const form = document.querySelector('[data-contact-form]');
     const message = form?.querySelector('textarea[name="message"]');
     if (form && message && !form.querySelector('[name="project_type"]')) {
-      message.closest('.field').insertAdjacentHTML('beforebegin', `<p class="contact-reply-note">Usually replies within 1–2 working days.</p><div class="form-row"><label class="field"><span>How can I help?</span><select name="project_type" required><option value="" selected disabled>Select an enquiry type</option><option>New website</option><option>WordPress support</option><option>SEO / performance improvement</option><option>Plugin or integration</option><option>Job opportunity</option><option>Other</option></select></label><label class="field"><span>Preferred timeline</span><select name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within one month</option><option>One to three months</option><option>Flexible</option></select></label></div><label class="field"><span>Approximate budget (optional)</span><select name="budget"><option value="">Prefer not to say</option><option>Under ₹25,000</option><option>₹25,000–₹75,000</option><option>₹75,000–₹1,50,000</option><option>₹1,50,000+</option></select></label>`);
+      message.closest('.field').insertAdjacentHTML('beforebegin', `<div class="form-row"><label class="field"><span>How can I help?</span><select name="project_type" required><option value="" selected disabled>Select an enquiry type</option><option>New website</option><option>WordPress support</option><option>SEO / performance improvement</option><option>Plugin or integration</option><option>Job opportunity</option><option>Other</option></select></label><label class="field"><span>Preferred timeline</span><select name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within one month</option><option>One to three months</option><option>Flexible</option></select></label></div>`);
+      form.querySelector('button[type="submit"]')?.insertAdjacentHTML('afterend', '<p class="contact-reply-note">Usually replies within 1–2 working days.</p>');
     }
+  }
+
+  document.querySelectorAll('.faq-list details').forEach((item) => { item.open = true; });
+
+  if ((projectKey === 'index.html' || location.pathname === '/' || location.pathname.endsWith('/')) && !document.querySelector('.resume-download')) {
+    document.querySelector('.hero-actions')?.insertAdjacentHTML('beforeend', '<a class="button button-quiet resume-download" href="Depakar-B-Resume.docx" download>Download résumé</a>');
   }
 
   // Project filtering keeps the full Work page useful once the portfolio grows.
@@ -96,6 +103,18 @@
     if (readLabel && !readLabel.textContent.includes('read')) readLabel.textContent += ' · 5 min read';
     article.insertAdjacentHTML('afterbegin', '<div class="reading-progress" aria-hidden="true"><i></i></div>');
     if (bodyCopy) {
+      const articleImages = {
+        'seo-aeo-geo-guide.html': ['Search visibility map for SEO AEO and GEO', 'Structured content and entity clarity illustration', 'Search measurement and continuous improvement graphic'],
+        'wordpress-technical-seo-checklist.html': ['Technical SEO inspection checklist', 'Heading structure and content hierarchy illustration', 'Indexing and internal link review graphic'],
+        'wordpress-performance-guide.html': ['WordPress loading performance illustration', 'Core Web Vitals and layout stability graphic', 'Image delivery and optimisation illustration'],
+        'amp-page-experience.html': ['Mobile first AMP experience illustration', 'Responsive content journey graphic', 'AMP form and conversion experience illustration'],
+        'wordpress-forms-integrations.html': ['WordPress form planning illustration', 'Form submission to business system integration graphic', 'Reliable confirmation and measurement illustration'],
+        'wordpress-security-basics.html': ['WordPress security layers illustration', 'Two factor authentication and protected login graphic', 'Updates backups and monitoring illustration']
+      };
+      const visuals = articleImages[projectKey] || [];
+      [...bodyCopy.querySelectorAll('h2')].forEach((heading, index) => {
+        if (index > 0 && visuals[index - 1]) heading.insertAdjacentHTML('beforebegin', `<div class="generated-visual generated-visual-${(index + 1) % 6} article-inline-visual" role="img" aria-label="${visuals[index - 1]}"><span>DEPAKAR B · INSIGHT</span><strong>${visuals[index - 1]}</strong><i></i></div>`);
+      });
       bodyCopy.insertAdjacentHTML('afterend', `<section class="article-afterword"><div class="article-author"><span>Written by</span><b>Depakar B</b><p>WordPress Developer working across development, performance, search readiness, and practical web systems.</p></div><div class="related-reading"><h2>Keep reading</h2><a href="wordpress-technical-seo-checklist.html">WordPress technical SEO checklist →</a><a href="wordpress-performance-guide.html">Improve WordPress page performance →</a><a href="seo-aeo-geo-guide.html">SEO, AEO &amp; GEO practical guide →</a></div></section>`);
       bodyCopy.insertAdjacentHTML('beforebegin', toc);
     }

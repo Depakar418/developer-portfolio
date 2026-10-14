@@ -7,7 +7,7 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  min-height: clamp(580px, 52vw, 760px);
+  min-height: clamp(650px, 58vw, 860px);
   margin: 0;
   overflow: hidden;
   background: transparent !important;
@@ -20,7 +20,7 @@
 .about-portrait img {
   position: relative;
   z-index: 1;
-  width: 150%;
+  width: 215%;
   max-width: none;
   max-height: none;
   height: auto;
@@ -29,7 +29,7 @@
 }
 
 .about-portrait-dark {
-  transform: translateX(5%);
+  transform: translateX(5%) scale(1.05);
 }
 
 body.light .about-portrait {
@@ -42,11 +42,11 @@ body.light .about-portrait {
   }
 
   .about-portrait {
-    min-height: 470px;
+    min-height: 510px;
   }
 
   .about-portrait img {
-    width: 142%;
+    width: 185%;
     max-width: none;
   }
 
