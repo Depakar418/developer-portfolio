@@ -11,6 +11,11 @@ if (!document.querySelector('link[href="enhancements.css"]')) {
   const enhancements = document.createElement('link');
   enhancements.rel = 'stylesheet'; enhancements.href = 'enhancements.css'; document.head.append(enhancements);
 }
+if (!document.querySelector('script[src="site-config.js"]')) {
+  const config = document.createElement('script'); config.src = 'site-config.js';
+  config.onload = () => { const analytics = document.createElement('script'); analytics.src = 'analytics.js'; document.head.append(analytics); };
+  document.head.append(config);
+}
 
 function replaceBrokenImage(image) {
   if (!(image instanceof HTMLImageElement) || image.dataset.fallbackApplied === 'true') return;
@@ -43,7 +48,7 @@ const header = document.querySelector('.site-header');
 if (header) {
   const utility = document.createElement('div');
   utility.className = 'utility';
-  utility.innerHTML = `<a class="header-whatsapp" href="https://wa.me/919344465429" target="_blank" rel="noopener">WhatsApp</a><button class="theme-toggle" type="button">Light</button><div class="language-picker"><button class="language-menu-button" type="button" aria-label="Choose website language" aria-expanded="false"><span class="language-flag">${flags.en}</span><span class="language-name">EN</span>${chevron}</button><div class="language-menu" role="menu" hidden>${Object.entries(languages).map(([code, label]) => `<button type="button" role="menuitem" data-language="${code}"><span class="language-flag">${flags[code]}</span>${label}</button>`).join('')}</div></div>`;
+  utility.innerHTML = `<a class="header-whatsapp" href="https://wa.me/919344465429" target="_blank" rel="noopener">WhatsApp</a><a class="mobile-contact-link" href="contact.html">Contact me <span>↗</span></a><button class="theme-toggle" type="button">Light</button><div class="language-picker"><button class="language-menu-button" type="button" aria-label="Choose website language" aria-expanded="false"><span class="language-flag">${flags.en}</span><span class="language-name">EN</span>${chevron}</button><div class="language-menu" role="menu" hidden>${Object.entries(languages).map(([code, label]) => `<button type="button" role="menuitem" data-language="${code}"><span class="language-flag">${flags[code]}</span>${label}</button>`).join('')}</div></div>`;
   header.append(utility);
   const themeButton = utility.querySelector('.theme-toggle');
   const savedTheme = localStorage.getItem('theme');
@@ -62,8 +67,23 @@ const menuToggle = document.querySelector('.menu-toggle');
 const navElement = document.querySelector('#site-nav');
 if (menuToggle && navElement) menuToggle.addEventListener('click', () => {
   const open = navElement.classList.toggle('open');
+  menuToggle.classList.toggle('is-open', open);
   menuToggle.setAttribute('aria-expanded', String(open));
 });
+if (menuToggle && navElement) {
+  menuToggle.innerHTML = '<span class="menu-icon" aria-hidden="true"></span><span class="menu-label">Menu</span>';
+  navElement.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    navElement.classList.remove('open'); menuToggle.classList.remove('is-open'); menuToggle.setAttribute('aria-expanded', 'false');
+  }));
+}
+const utility = document.querySelector('.utility');
+function placeMobileUtility() {
+  if (!utility || !header || !navElement) return;
+  if (window.matchMedia('(max-width: 780px)').matches) navElement.append(utility);
+  else header.append(utility);
+}
+placeMobileUtility();
+window.addEventListener('resize', placeMobileUtility, { passive: true });
 
 const englishContent = {};
 document.querySelectorAll('[data-i18n]').forEach((el) => { englishContent[el.dataset.i18n] = el.textContent.trim(); });
@@ -116,6 +136,7 @@ if (languagePicker) {
 const projects = document.querySelector('.projects');
 if (document.querySelector('.intro-band') && projects) {
   projects.id = 'projects';
+  projects.querySelector('.section-head .text-link')?.remove();
   const intro = document.querySelector('.intro-band p');
   if (intro && !document.querySelector('.intro-scroll-cta')) intro.insertAdjacentHTML('afterend', '<a class="button button-primary intro-scroll-cta" href="#projects">View selected projects</a>');
   const projectGrid = projects.querySelector('.project-grid');
@@ -194,6 +215,16 @@ const footer = document.querySelector('.site-footer');
 if (footer) {
   footer.innerHTML = `<div class="footer-brand"><a class="wordmark" href="index.html">DEPAKAR<span> B</span></a><p>WordPress development, plugin engineering, and search-ready digital experiences built for practical growth.</p><p class="footer-signoff">Built with curiosity, code, and too many browser tabs.</p></div><div class="footer-column"><b>Explore</b><a href="work.html">Projects</a><a href="about.html">About me</a><a href="plugins.html">Plugins</a><a href="blog.html">Insights</a></div><div class="footer-column"><b>Capabilities</b><span>WordPress development</span><span>Technical SEO · AEO · GEO</span><span>Performance &amp; analytics</span><span>Custom plugins &amp; integrations</span></div><div class="footer-contact"><b>Let’s build something useful.</b><p>Have a site, product, or workflow that needs to work better?</p><a class="footer-email" href="mailto:depakar418@gmail.com">depakar418@gmail.com</a><div class="footer-actions"><a class="footer-whatsapp-link" href="https://wa.me/919344465429" target="_blank" rel="noopener">Chat on WhatsApp</a><a href="https://www.linkedin.com/in/depakar418" target="_blank" rel="noopener">LinkedIn</a></div><form class="footer-contact-form" action="https://formspree.io/f/mppqjgww" method="POST"><label class="sr-only" for="footer-email">Email address</label><input id="footer-email" type="email" name="email" placeholder="Your email address" required><input type="hidden" name="_subject" value="New portfolio contact from footer"><button type="submit">Contact me</button></form></div><div class="footer-base"><small>© ${new Date().getFullYear()} Depakar B</small><small>WordPress Developer · SEO · AEO · GEO</small></div>`;
 }
+
+// Keep the new Now page discoverable without having to maintain every header by hand.
+document.querySelectorAll('#site-nav').forEach((nav) => {
+  if (![...nav.querySelectorAll('a')].some((link) => link.getAttribute('href') === 'now.html')) {
+    const aboutLink = [...nav.querySelectorAll('a')].find((link) => link.getAttribute('href') === 'about.html');
+    const nowLink = document.createElement('a'); nowLink.href = 'now.html'; nowLink.textContent = 'Now';
+    if (location.pathname.endsWith('/now.html')) nowLink.classList.add('is-active');
+    aboutLink ? aboutLink.insertAdjacentElement('afterend', nowLink) : nav.append(nowLink);
+  }
+});
 
 const form = document.querySelector('[data-contact-form]');
 if (form) form.addEventListener('submit', async (event) => {

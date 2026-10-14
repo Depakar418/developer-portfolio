@@ -51,8 +51,70 @@
     const form = document.querySelector('[data-contact-form]');
     const message = form?.querySelector('textarea[name="message"]');
     if (form && message && !form.querySelector('[name="project_type"]')) {
-      message.closest('.field').insertAdjacentHTML('beforebegin', `<div class="form-row"><label class="field"><span>Project type</span><select name="project_type"><option value="">Select one</option><option>WordPress development</option><option>Plugin or integration</option><option>SEO / AEO / GEO</option><option>Performance improvement</option><option>Landing page or campaign</option><option>Other</option></select></label><label class="field"><span>Preferred timeline</span><select name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within one month</option><option>One to three months</option><option>Flexible</option></select></label></div><label class="field"><span>Approximate budget (optional)</span><select name="budget"><option value="">Prefer not to say</option><option>Under ₹25,000</option><option>₹25,000–₹75,000</option><option>₹75,000–₹1,50,000</option><option>₹1,50,000+</option></select></label>`);
+      message.closest('.field').insertAdjacentHTML('beforebegin', `<p class="contact-reply-note">Usually replies within 1–2 working days.</p><div class="form-row"><label class="field"><span>How can I help?</span><select name="project_type" required><option value="" selected disabled>Select an enquiry type</option><option>New website</option><option>WordPress support</option><option>SEO / performance improvement</option><option>Plugin or integration</option><option>Job opportunity</option><option>Other</option></select></label><label class="field"><span>Preferred timeline</span><select name="timeline"><option value="">Select one</option><option>As soon as possible</option><option>Within one month</option><option>One to three months</option><option>Flexible</option></select></label></div><label class="field"><span>Approximate budget (optional)</span><select name="budget"><option value="">Prefer not to say</option><option>Under ₹25,000</option><option>₹25,000–₹75,000</option><option>₹75,000–₹1,50,000</option><option>₹1,50,000+</option></select></label>`);
     }
+  }
+
+  // Project filtering keeps the full Work page useful once the portfolio grows.
+  if ((projectKey === 'work.html' || projectKey === 'work-v2.html') && !document.querySelector('.work-filter-bar')) {
+    const caseList = document.querySelector('.case-list');
+    const projectGrid = document.querySelector('.project-grid-four');
+    if (caseList) {
+      const filters = ['All', 'WordPress', 'SEO', 'AMP', 'Integrations', 'Learning platforms', 'Plugins'];
+      caseList.insertAdjacentHTML('beforebegin', `<div class="work-filter-bar" aria-label="Filter projects"><span>Filter work</span>${filters.map((filter, index) => `<button type="button" class="${index === 0 ? 'is-active' : ''}" data-filter="${filter}">${filter}</button>`).join('')}</div>`);
+      const allCards = [...caseList.querySelectorAll('.case-study'), ...(projectGrid ? projectGrid.querySelectorAll('.project-card') : [])];
+      const tags = {
+        'SucceedLEARN': ['WordPress', 'SEO', 'AMP', 'Integrations', 'Learning platforms'],
+        'eLearnPOSH': ['WordPress', 'AMP', 'Integrations', 'Learning platforms'],
+        'Succeed Technologies': ['WordPress', 'SEO', 'Integrations'],
+        'SCROMBridge': ['WordPress', 'Integrations', 'Learning platforms'],
+        'External Member Directory': ['WordPress', 'Integrations'],
+        'Brand Ventures': ['WordPress', 'SEO'], 'New Metador': ['WordPress', 'SEO'],
+        'ForceFriction AI': ['WordPress', 'SEO'], 'Tech AI Magazine': ['WordPress', 'SEO']
+      };
+      allCards.forEach((card) => {
+        const key = [...tags].find(([name]) => card.textContent.includes(name))?.[0];
+        card.dataset.workTags = (tags[key] || ['WordPress']).join('|');
+      });
+      document.querySelector('.work-filter-bar').addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-filter]'); if (!button) return;
+        document.querySelectorAll('.work-filter-bar button').forEach((item) => item.classList.toggle('is-active', item === button));
+        const filter = button.dataset.filter;
+        allCards.forEach((card) => { card.hidden = filter !== 'All' && !card.dataset.workTags.includes(filter); });
+      });
+    }
+  }
+
+  // Long-form articles get a reading progress bar, table of contents, author note and related reading.
+  if (document.querySelector('.article') && !document.querySelector('.article-reading-tools')) {
+    const article = document.querySelector('.article');
+    const bodyCopy = article.querySelector('.article-body');
+    const headings = bodyCopy ? [...bodyCopy.querySelectorAll('h2, h3')] : [];
+    headings.forEach((heading, index) => { heading.id ||= `section-${index + 1}`; });
+    const toc = headings.length ? `<aside class="article-reading-tools"><p>In this article</p><nav>${headings.map((heading) => `<a class="toc-${heading.tagName.toLowerCase()}" href="#${heading.id}">${heading.textContent}</a>`).join('')}</nav></aside>` : '';
+    const readLabel = article.querySelector('.blog-label');
+    if (readLabel && !readLabel.textContent.includes('read')) readLabel.textContent += ' · 5 min read';
+    article.insertAdjacentHTML('afterbegin', '<div class="reading-progress" aria-hidden="true"><i></i></div>');
+    if (bodyCopy) {
+      bodyCopy.insertAdjacentHTML('afterend', `<section class="article-afterword"><div class="article-author"><span>Written by</span><b>Depakar B</b><p>WordPress Developer working across development, performance, search readiness, and practical web systems.</p></div><div class="related-reading"><h2>Keep reading</h2><a href="wordpress-technical-seo-checklist.html">WordPress technical SEO checklist →</a><a href="wordpress-performance-guide.html">Improve WordPress page performance →</a><a href="seo-aeo-geo-guide.html">SEO, AEO &amp; GEO practical guide →</a></div></section>`);
+      bodyCopy.insertAdjacentHTML('beforebegin', toc);
+    }
+    const updateProgress = () => {
+      const total = Math.max(article.offsetHeight - window.innerHeight, 1);
+      const top = article.getBoundingClientRect().top;
+      const progress = Math.max(0, Math.min(100, ((-top) / total) * 100));
+      const bar = document.querySelector('.reading-progress i'); if (bar) bar.style.width = `${progress}%`;
+    };
+    updateProgress(); window.addEventListener('scroll', updateProgress, { passive: true });
+  }
+
+  // Site-wide structured data. Replace the verification placeholder only after Search Console provides a token.
+  if (!document.querySelector('script[data-portfolio-site-schema]')) {
+    const schema = { '@context': 'https://schema.org', '@graph': [
+      { '@type': 'WebSite', name: 'Depakar B', url: location.origin + '/', description: 'Portfolio of Depakar B, WordPress Developer.' },
+      { '@type': 'Person', name: 'Depakar B', jobTitle: 'WordPress Developer', url: location.origin + '/', sameAs: ['https://www.linkedin.com/in/depakar418', 'https://github.com/Depakar418'] }
+    ]};
+    const node = document.createElement('script'); node.type = 'application/ld+json'; node.dataset.portfolioSiteSchema = 'true'; node.textContent = JSON.stringify(schema); document.head.append(node);
   }
 
   if (projectKey === 'index.html' || location.pathname === '/' || location.pathname.endsWith('/')) {
