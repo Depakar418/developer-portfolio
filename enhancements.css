@@ -79,3 +79,42 @@ body:not(.light) .button-primary{color:#fff}.project-learning{max-width:1400px;m
 
 /* Keep the confirmation page concise and human-sized. */
 .thank-you-card{max-width:620px;padding:clamp(1.8rem,4vw,3.25rem)}.thank-you-card h1{font-size:clamp(2rem,4vw,3.25rem);line-height:1.05;letter-spacing:-.045em;margin:.55rem 0 1rem}.thank-you-card p:not(.label){font-size:1rem;line-height:1.65;margin:.7rem 0 1.6rem}.thank-you-card .hero-actions{margin-top:1.25rem}
+
+/* Single-article layout: all editorial elements share one readable column.
+   This replaces the negative-margin TOC which could leave the viewport. */
+.article .article-header,
+.article .article-body,
+.article .article-cover,
+.article > .generated-visual,
+.article .article-inline-visual,
+.article .article-reading-tools,
+.article .article-afterword{
+  width:100%;
+  max-width:960px!important;
+  box-sizing:border-box;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+.article .article-cover,
+.article .article-inline-visual,
+.article > .generated-visual{
+  display:block;
+  height:auto;
+  object-fit:cover;
+  overflow:hidden;
+}
+.article .article-reading-tools{
+  float:none;
+  position:relative;
+  top:auto;
+  margin-top:0!important;
+  margin-bottom:2.25rem!important;
+  padding:1rem 1.15rem;
+}
+.article .article-reading-tools nav{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.5rem 1rem;
+}
+.article .article-reading-tools a{overflow-wrap:anywhere}
+@media(max-width:780px){.article .article-reading-tools nav{grid-template-columns:1fr}.article .article-cover,.article .article-inline-visual,.article > .generated-visual{border-radius:12px}}

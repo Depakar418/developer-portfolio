@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://developer-portfolio-git-main-depakar418s-projects.vercel.app/sitemap.xml
+Sitemap: https://developer-portfolio-sigma-ochre.vercel.app/sitemap.xml
