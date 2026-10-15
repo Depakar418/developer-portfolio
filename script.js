@@ -231,6 +231,18 @@ document.querySelectorAll('#site-nav').forEach((nav) => {
   }
 });
 
+// A dedicated service page gives visitors and search engines one clear route
+// to the WordPress development work represented across projects and articles.
+document.querySelectorAll('#site-nav').forEach((nav) => {
+  if (![...nav.querySelectorAll('a')].some((link) => link.getAttribute('href') === 'wordpress-developer.html')) {
+    const workLink = [...nav.querySelectorAll('a')].find((link) => link.getAttribute('href') === 'work.html');
+    const serviceLink = document.createElement('a');
+    serviceLink.href = 'wordpress-developer.html'; serviceLink.textContent = 'WordPress';
+    if (location.pathname.endsWith('/wordpress-developer.html')) serviceLink.classList.add('is-active');
+    workLink ? workLink.insertAdjacentElement('afterend', serviceLink) : nav.append(serviceLink);
+  }
+});
+
 const form = document.querySelector('[data-contact-form]');
 if (form) form.addEventListener('submit', async (event) => {
   event.preventDefault();

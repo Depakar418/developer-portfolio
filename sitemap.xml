@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/wordpress-developer.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/wordpress-plugin-development.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/wordpress-performance-optimization.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/wordpress-integrations.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/build-notes.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/contributions.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/work.html</loc></url>
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/technical-work.html</loc><priority>0.7</priority></url>
   <url><loc>https://developer-portfolio-sigma-ochre.vercel.app/resume.html</loc><priority>0.6</priority></url>

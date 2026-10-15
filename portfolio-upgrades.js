@@ -47,6 +47,12 @@
     if (grid && !document.querySelector('.blog-roadmap')) grid.insertAdjacentHTML('afterend', `<section class="blog-roadmap"><h2>More practical notes in progress.</h2><p>These are the next technical topics I am preparing from real WordPress development and production work.</p><div class="blog-roadmap-grid"><article><span>Technical SEO</span><h3>WordPress technical SEO checklist</h3><p>What to review before treating a page as ready for search.</p></article><article><span>Production QA</span><h3>What I test before a WordPress release</h3><p>Responsive layouts, forms, tracking, content, and live checks.</p></article><article><span>AMP</span><h3>Maintaining AMP experiences</h3><p>Practical lessons from keeping mobile and desktop experiences aligned.</p></article><article><span>Plugins</span><h3>Building a safer WordPress plugin</h3><p>Settings, sanitisation, escaping, compatibility, and releases.</p></article><article><span>Directories</span><h3>Creating a searchable member directory</h3><p>Content structure, filters, listing states, and user journeys.</p></article><article><span>Case studies</span><h3>How I document web work honestly</h3><p>Showing decisions and proof without inventing business outcomes.</p></article></div></section>`);
   }
 
+  // Give every long-form article a clear path back to the WordPress service page.
+  if (document.querySelector('.article-body') && !document.querySelector('.article-service-cta')) {
+    const articleBody = document.querySelector('.article-body');
+    articleBody.insertAdjacentHTML('beforeend', '<aside class="article-service-cta"><h2>Need help applying this to a WordPress site?</h2><p>I build and improve WordPress themes, plugins, forms, performance, technical SEO, and integrations.</p><a class="button button-primary" href="wordpress-developer.html">Explore WordPress development</a></aside>');
+  }
+
   if (projectKey === 'contact.html') {
     const form = document.querySelector('[data-contact-form]');
     const message = form?.querySelector('textarea[name="message"]');
@@ -142,8 +148,14 @@
   }
 
   const exploreColumn = document.querySelector('.site-footer .footer-column');
+  if (exploreColumn && !exploreColumn.querySelector('a[href="wordpress-developer.html"]')) {
+    exploreColumn.insertAdjacentHTML('afterbegin', '<a href="wordpress-developer.html">WordPress development</a>');
+  }
   if (exploreColumn && !exploreColumn.querySelector('a[href="technical-work.html"]')) {
     exploreColumn.insertAdjacentHTML('beforeend', '<a href="technical-work.html">Technical work</a><a href="resume.html">Résumé</a>');
+  }
+  if (exploreColumn && !exploreColumn.querySelector('a[href="build-notes.html"]')) {
+    exploreColumn.insertAdjacentHTML('beforeend', '<a href="build-notes.html">Build notes</a><a href="contributions.html">Contributions</a>');
   }
   if ((projectKey === 'work.html' || projectKey === 'work-v2.html') && !document.querySelector('.technical-work-cta')) {
     const caseList = document.querySelector('.case-list');
