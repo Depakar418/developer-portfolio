@@ -56,6 +56,24 @@
     if (explore && !document.querySelector('.portfolio-timeline')) explore.insertAdjacentHTML('afterend', `<section class="portfolio-timeline"><h2>Experience in context.</h2><p>I am early in my career, but my work already spans live platforms, production changes, search foundations, plugins, and practical integrations.</p><div class="timeline-list"><article><time>May 2025 — present</time><div><h3>WordPress Developer · Succeed Technologies</h3><p>Development and maintenance across SucceedLEARN, eLearnPOSH, SCROMBridge, corporate web experiences, and related internal or customer-facing systems.</p></div></article><article><time>July 2024 — present</time><div><h3>Web development journey</h3><p>Growing through real projects in custom WordPress development, AMP, plugin work, technical SEO, performance, analytics, deployment, and maintenance.</p></div></article></div></section><section class="portfolio-tools"><h2>Tools I use in the work.</h2><p>Tools support the process; the goal is a useful, maintainable outcome.</p><div class="tool-list"><span data-mark="W">WordPress</span><span data-mark="PHP">PHP</span><span data-mark="G">Git</span><span data-mark="GA">Google Analytics 4</span><span data-mark="SC">Search Console</span><span data-mark="U">Ubersuggest</span><span data-mark="GT">GTmetrix</span><span data-mark="P">Postman</span><span data-mark="F">Figma</span><span data-mark="AI">ChatGPT</span><span data-mark="C">Claude</span><span data-mark="AZ">Azure</span></div><a class="button button-primary resume-cta" href="resume.html">View printable résumé</a></section>`);
   }
 
+  if (projectKey === 'about.html') {
+    const toolIcons = {
+      'WordPress': 'wordpress', 'PHP': 'php', 'Git': 'git', 'Google Analytics 4': 'googleanalytics',
+      'Search Console': 'googlesearchconsole', 'Ubersuggest': 'neilpatel', 'GTmetrix': 'gtmetrix',
+      'Postman': 'postman', 'Figma': 'figma', 'ChatGPT': 'openai', 'Claude': 'anthropic', 'Azure': 'microsoftazure'
+    };
+    document.querySelectorAll('.tool-list > span').forEach((tool) => {
+      const label = tool.textContent.trim();
+      const icon = toolIcons[label];
+      if (icon && !tool.querySelector('img')) tool.insertAdjacentHTML('afterbegin', `<img class="tool-logo" src="https://cdn.simpleicons.org/${icon}" width="24" height="24" loading="lazy" decoding="async" alt="">`);
+    });
+  }
+
+  if (projectKey === 'wordpress-developer.html' && !document.querySelector('.wordpress-service-visual')) {
+    const story = document.querySelector('.project-story');
+    if (story) story.insertAdjacentHTML('afterend', `<figure class="wordpress-service-visual"><img src="depakar-portfolio-black-hero.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="Depakar B reviewing a digital experience, representing WordPress development, technical SEO, and performance work"><figcaption>Clear user journeys, maintainable builds, and practical technical foundations belong in the same project.</figcaption></figure>`);
+  }
+
   if (projectKey === 'plugins.html') {
     const wrap = document.querySelector('.plugins-wrap');
     if (wrap && !document.querySelector('.portfolio-proof')) wrap.insertAdjacentHTML('afterend', `<section class="portfolio-proof"><div><h2>Built with release quality in mind.</h2><p>Each plugin page explains a practical workflow problem rather than presenting a generic feature list. Public links, screenshots, version history, and source links should be added only when they are ready to share.</p></div><div class="proof-list"><article><h3>Real problem first</h3><p>Forms, content discovery, redirects, SEO history, and social chat are all repeated WordPress workflows.</p></article><article><h3>WordPress-safe habits</h3><p>Settings, output, compatibility, sanitisation, escaping, and release maintenance are considered in the development process.</p></article><article><h3>Evidence over promises</h3><p>Public directory pages, repositories, screenshots, and changelogs are the right proof when approved for publication.</p></article></div></section>`);
@@ -94,7 +112,7 @@
     const caseList = document.querySelector('.case-list');
     const projectGrid = document.querySelector('.project-grid-four');
     if (caseList) {
-      const filters = ['All', 'WordPress', 'SEO', 'AMP', 'Integrations', 'Learning platforms', 'Plugins'];
+      const filters = ['All', 'WordPress', 'SEO', 'AMP', 'Integrations', 'Learning platforms'];
       caseList.insertAdjacentHTML('beforebegin', `<div class="work-filter-bar" aria-label="Filter projects"><span>Filter work</span>${filters.map((filter, index) => `<button type="button" class="${index === 0 ? 'is-active' : ''}" data-filter="${filter}">${filter}</button>`).join('')}</div>`);
       const allCards = [...caseList.querySelectorAll('.case-study'), ...(projectGrid ? projectGrid.querySelectorAll('.project-card') : [])];
       const tags = {
@@ -107,14 +125,14 @@
         'ForceFriction AI': ['WordPress', 'SEO'], 'Tech AI Magazine': ['WordPress', 'SEO']
       };
       allCards.forEach((card) => {
-        const key = [...tags].find(([name]) => card.textContent.includes(name))?.[0];
+        const key = Object.entries(tags).find(([name]) => card.textContent.includes(name))?.[0];
         card.dataset.workTags = (tags[key] || ['WordPress']).join('|');
       });
       document.querySelector('.work-filter-bar').addEventListener('click', (event) => {
         const button = event.target.closest('button[data-filter]'); if (!button) return;
         document.querySelectorAll('.work-filter-bar button').forEach((item) => item.classList.toggle('is-active', item === button));
         const filter = button.dataset.filter;
-        allCards.forEach((card) => { card.hidden = filter !== 'All' && !card.dataset.workTags.includes(filter); });
+        allCards.forEach((card) => { card.hidden = filter !== 'All' && !card.dataset.workTags.split('|').includes(filter); });
       });
     }
   }
@@ -123,6 +141,19 @@
   if (document.querySelector('.article') && !document.querySelector('.article-reading-tools')) {
     const article = document.querySelector('.article');
     const bodyCopy = article.querySelector('.article-body');
+    const articleCover = {
+      'seo-aeo-geo-guide.html': ['blog-assets/covers/seo-aeo-geo.webp', 'Connected search, answer and generative discovery systems'],
+      'wordpress-technical-seo-checklist.html': ['blog-assets/covers/technical-seo.webp', 'Website structure, crawl paths and technical SEO checks'],
+      'wordpress-performance-guide.html': ['blog-assets/covers/performance.webp', 'Faster website delivery and page performance optimisation'],
+      'amp-page-experience.html': ['blog-assets/covers/mobile-amp.webp', 'Responsive mobile website journey and conversion flow'],
+      'wordpress-forms-integrations.html': ['blog-assets/covers/forms-integrations.webp', 'Secure form submission connected to business systems'],
+      'wordpress-security-basics.html': ['blog-assets/covers/security.webp', 'Layered website security, access control and backup protection']
+    }[projectKey];
+    const cover = article.querySelector('.article-header + .article-cover');
+    if (cover && articleCover) {
+      cover.src = articleCover[0]; cover.alt = articleCover[1]; cover.width = 1600; cover.height = 900;
+      cover.fetchPriority = 'high'; cover.removeAttribute('loading');
+    }
     const headings = bodyCopy ? [...bodyCopy.querySelectorAll('h2, h3')] : [];
     headings.forEach((heading, index) => { heading.id ||= `section-${index + 1}`; });
     const toc = headings.length ? `<aside class="article-reading-tools"><p>In this article</p><nav>${headings.map((heading) => `<a class="toc-${heading.tagName.toLowerCase()}" href="#${heading.id}">${heading.textContent}</a>`).join('')}</nav></aside>` : '';
@@ -130,18 +161,6 @@
     if (readLabel && !readLabel.textContent.includes('read')) readLabel.textContent += ' · 5 min read';
     article.insertAdjacentHTML('afterbegin', '<div class="reading-progress" aria-hidden="true"><i></i></div>');
     if (bodyCopy) {
-      const articleImages = {
-        'seo-aeo-geo-guide.html': ['Search visibility map for SEO AEO and GEO', 'Structured content and entity clarity illustration', 'Search measurement and continuous improvement graphic'],
-        'wordpress-technical-seo-checklist.html': ['Technical SEO inspection checklist', 'Heading structure and content hierarchy illustration', 'Indexing and internal link review graphic'],
-        'wordpress-performance-guide.html': ['WordPress loading performance illustration', 'Core Web Vitals and layout stability graphic', 'Image delivery and optimisation illustration'],
-        'amp-page-experience.html': ['Mobile first AMP experience illustration', 'Responsive content journey graphic', 'AMP form and conversion experience illustration'],
-        'wordpress-forms-integrations.html': ['WordPress form planning illustration', 'Form submission to business system integration graphic', 'Reliable confirmation and measurement illustration'],
-        'wordpress-security-basics.html': ['WordPress security layers illustration', 'Two factor authentication and protected login graphic', 'Updates backups and monitoring illustration']
-      };
-      const visuals = articleImages[projectKey] || [];
-      [...bodyCopy.querySelectorAll('h2')].forEach((heading, index) => {
-        if (index > 0 && visuals[index - 1]) heading.insertAdjacentHTML('beforebegin', `<div class="generated-visual generated-visual-${(index + 1) % 6} article-inline-visual" role="img" aria-label="${visuals[index - 1]}"><span>DEPAKAR B · INSIGHT</span><strong>${visuals[index - 1]}</strong><i></i></div>`);
-      });
       bodyCopy.insertAdjacentHTML('afterend', `<section class="article-afterword"><div class="article-author"><span>Written by</span><b>Depakar B</b><p>WordPress Developer at Succeed Technologies, working across custom PHP development, plugins, learning platforms, AMP-related implementation, technical SEO, analytics, and maintainable website improvements.</p><a href="about.html">About the author →</a></div><div class="related-reading"><h2>Keep reading</h2><a href="wordpress-technical-seo-checklist.html">WordPress technical SEO checklist →</a><a href="wordpress-performance-guide.html">Improve WordPress page performance →</a><a href="seo-aeo-geo-guide.html">SEO, AEO &amp; GEO practical guide →</a></div></section>`);
       bodyCopy.insertAdjacentHTML('beforebegin', toc);
     }
@@ -152,6 +171,20 @@
       const bar = document.querySelector('.reading-progress i'); if (bar) bar.style.width = `${progress}%`;
     };
     updateProgress(); window.addEventListener('scroll', updateProgress, { passive: true });
+  }
+
+  if (projectKey === 'blog.html' && !document.querySelector('.blog-category-bar')) {
+    const grid = document.querySelector('.blog-grid');
+    if (grid) {
+      const categories = [['all', 'All topics'], ['seo', 'SEO, AEO & GEO'], ['performance', 'Performance & speed'], ['structure', 'Site structure'], ['mobile', 'Mobile & AMP'], ['guidance', 'WordPress guidance']];
+      grid.insertAdjacentHTML('beforebegin', `<nav class="blog-category-bar" aria-label="Filter blog topics">${categories.map(([key, label], index) => `<button type="button" class="${index === 0 ? 'is-active' : ''}" data-blog-filter="${key}">${label}</button>`).join('')}</nav>`);
+      const cards = [...grid.querySelectorAll('.blog-card')];
+      document.querySelector('.blog-category-bar').addEventListener('click', (event) => {
+        const button = event.target.closest('[data-blog-filter]'); if (!button) return;
+        document.querySelectorAll('.blog-category-bar button').forEach((item) => item.classList.toggle('is-active', item === button));
+        cards.forEach((card) => { card.hidden = button.dataset.blogFilter !== 'all' && !card.dataset.blogCategory.split(' ').includes(button.dataset.blogFilter); });
+      });
+    }
   }
 
   // Site-wide structured data. Replace the verification placeholder only after Search Console provides a token.
