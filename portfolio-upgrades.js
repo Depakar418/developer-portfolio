@@ -24,6 +24,25 @@
     }
   }
 
+  // Evidence-led project facts drawn from the portfolio workbook. These state scope, not unmeasured business outcomes.
+  const projectEvidence = {
+    'project-succeedlearn.html': ['Project scope', 'B2B compliance and security eLearning platform', ['Existing WordPress theme and LearnPress course setup', 'Custom PHP, templates, page sections, and landing-page structure where implemented', 'AMP support, lead-form updates, technical SEO checks, GA4/Search Console, QA, and deployment support']],
+    'project-elearnposh.html': ['Project scope', 'POSH and workplace-compliance education website', ['WordPress page development and maintenance in the existing Genesis Sample environment', 'POSH compliance and training-page layout work, plus relevant webinar, payment, and AMP page support', 'Contact/enquiry form UI changes, metadata improvements, troubleshooting, and release coordination']],
+    'project-succeed-technologies.html': ['Project scope', 'Corporate WordPress work within a multi-product technology environment', ['Custom pages, reusable sections, theme/template changes, and responsive UI implementation', 'SEO-related implementation and tracking tasks where assigned', 'Staging-to-live validation, troubleshooting, and maintenance within established code conventions']],
+    'project-scrombridge.html': ['Project scope', 'Learning-platform contribution focused on user journeys and maintainable delivery', ['Learning-platform pages and course presentation work where implemented', 'WordPress/PHP customisation and integration work where verified', 'Course-navigation, key-journey testing, troubleshooting, and maintenance']],
+    'project-external-member-directory.html': ['Project scope', 'Directory-style experience for structured public member information', ['Listing presentation and template work where implemented', 'Filtering/search behaviour and responsive layout where part of the contribution', 'Testing important listing, filtering, and visitor-discovery states without exposing private member data']]
+  };
+  const evidence = projectEvidence[projectKey];
+  if (evidence && !document.querySelector('.project-evidence')) {
+    const scope = document.querySelector('.project-scope') || document.querySelector('.project-story');
+    if (scope) scope.insertAdjacentHTML('afterend', `<section class="project-evidence"><div><p class="label">${evidence[0]}</p><h2>${evidence[1]}</h2><p>This case study describes work I contributed to in a wider product or team context. It does not claim unverified ranking, traffic, conversion, or revenue results.</p></div><ul>${evidence[2].map((item) => `<li>${item}</li>`).join('')}</ul></section>`);
+  }
+
+  if (projectKey === 'project-succeedlearn.html' && !document.querySelector('.amp-evidence')) {
+    const evidenceSection = document.querySelector('.project-evidence');
+    if (evidenceSection) evidenceSection.insertAdjacentHTML('afterend', `<section class="project-evidence amp-evidence"><div><p class="label">Public AMP example</p><h2>A live AMP course-discovery route.</h2><p>This publicly available SucceedLEARN course page is an AMP URL. It is included as an implementation example, not as a claim about rankings, page-speed scores, or validation status.</p><a class="button button-primary" href="https://succeedlearn.com/by-courses-best-elearning-courses-succeedlearn/?amp=1" target="_blank" rel="noopener">View public AMP page ↗</a></div><ul><li>Course categories and discovery links are available in an AMP-compatible route.</li><li>The case study keeps AMP claims scoped to publicly observable implementation.</li><li>Additional AMP URLs can be added after their public pages and validation are confirmed.</li></ul></section>`);
+  }
+
   if (document.body.classList.contains('home') || document.querySelector('.capabilities')) {
     const anchor = document.querySelector('.faq-section') || document.querySelector('.cta-panel');
     if (anchor && !document.querySelector('.service-strip')) anchor.insertAdjacentHTML('afterend', `<section class="service-strip"><h2>How I can help.</h2><p>Focused development and improvement work for organisations that need a clearer, faster, more maintainable website or digital product.</p><div class="service-grid"><article><h3>WordPress development</h3><p>Custom themes, templates, components, page builds, and ongoing maintenance.</p></article><article><h3>Plugins & integrations</h3><p>Purpose-built features, forms, LMS, payment and business-system integrations.</p></article><article><h3>Search-ready delivery</h3><p>Technical SEO, AEO/GEO-aware structure, content clarity, and measurement foundations.</p></article><article><h3>Performance & QA</h3><p>Responsive testing, AMP support where applicable, production checks, and iterative improvement.</p></article><article><h3>Landing pages & campaigns</h3><p>Clear conversion journeys for launches, webinars, lead capture, and marketing activity.</p></article><article><h3>Website support</h3><p>Practical maintenance, content updates, troubleshooting, and technical clean-up.</p></article></div></section>`);
@@ -41,6 +60,8 @@
     const wrap = document.querySelector('.plugins-wrap');
     if (wrap && !document.querySelector('.portfolio-proof')) wrap.insertAdjacentHTML('afterend', `<section class="portfolio-proof"><div><h2>Built with release quality in mind.</h2><p>Each plugin page explains a practical workflow problem rather than presenting a generic feature list. Public links, screenshots, version history, and source links should be added only when they are ready to share.</p></div><div class="proof-list"><article><h3>Real problem first</h3><p>Forms, content discovery, redirects, SEO history, and social chat are all repeated WordPress workflows.</p></article><article><h3>WordPress-safe habits</h3><p>Settings, output, compatibility, sanitisation, escaping, and release maintenance are considered in the development process.</p></article><article><h3>Evidence over promises</h3><p>Public directory pages, repositories, screenshots, and changelogs are the right proof when approved for publication.</p></article></div></section>`);
   }
+
+  document.querySelectorAll('.portfolio-timeline time').forEach((date) => date.remove());
 
   if (projectKey === 'blog.html') {
     const grid = document.querySelector('.blog-grid');
@@ -121,7 +142,7 @@
       [...bodyCopy.querySelectorAll('h2')].forEach((heading, index) => {
         if (index > 0 && visuals[index - 1]) heading.insertAdjacentHTML('beforebegin', `<div class="generated-visual generated-visual-${(index + 1) % 6} article-inline-visual" role="img" aria-label="${visuals[index - 1]}"><span>DEPAKAR B · INSIGHT</span><strong>${visuals[index - 1]}</strong><i></i></div>`);
       });
-      bodyCopy.insertAdjacentHTML('afterend', `<section class="article-afterword"><div class="article-author"><span>Written by</span><b>Depakar B</b><p>WordPress Developer working across development, performance, search readiness, and practical web systems.</p></div><div class="related-reading"><h2>Keep reading</h2><a href="wordpress-technical-seo-checklist.html">WordPress technical SEO checklist →</a><a href="wordpress-performance-guide.html">Improve WordPress page performance →</a><a href="seo-aeo-geo-guide.html">SEO, AEO &amp; GEO practical guide →</a></div></section>`);
+      bodyCopy.insertAdjacentHTML('afterend', `<section class="article-afterword"><div class="article-author"><span>Written by</span><b>Depakar B</b><p>WordPress Developer at Succeed Technologies, working across custom PHP development, plugins, learning platforms, AMP-related implementation, technical SEO, analytics, and maintainable website improvements.</p><a href="about.html">About the author →</a></div><div class="related-reading"><h2>Keep reading</h2><a href="wordpress-technical-seo-checklist.html">WordPress technical SEO checklist →</a><a href="wordpress-performance-guide.html">Improve WordPress page performance →</a><a href="seo-aeo-geo-guide.html">SEO, AEO &amp; GEO practical guide →</a></div></section>`);
       bodyCopy.insertAdjacentHTML('beforebegin', toc);
     }
     const updateProgress = () => {

@@ -216,6 +216,16 @@ if (gallery && !document.querySelector('.project-gallery')) {
   }
 }
 
+// Do not leave visitors with broken thumbnails while approved public captures are being prepared.
+document.querySelectorAll('.project-gallery-item img').forEach((image) => {
+  image.addEventListener('error', () => {
+    if (!image.dataset.fallbackApplied) {
+      image.dataset.fallbackApplied = 'true';
+      image.src = 'project-assets/project-visual-fallback.svg';
+    }
+  }, { once: true });
+});
+
 const footer = document.querySelector('.site-footer');
 if (footer) {
   footer.innerHTML = `<div class="footer-brand"><a class="wordmark" href="index.html">DEPAKAR<span> B</span></a><p>WordPress development, plugin engineering, and search-ready digital experiences built for practical growth.</p><p class="footer-signoff">Built with curiosity, code, and too many browser tabs.</p></div><div class="footer-column"><b>Explore</b><a href="work.html">Projects</a><a href="about.html">About me</a><a href="plugins.html">Plugins</a><a href="blog.html">Insights</a></div><div class="footer-column"><b>Capabilities</b><span>WordPress development</span><span>Technical SEO · AEO · GEO</span><span>Performance &amp; analytics</span><span>Custom plugins &amp; integrations</span></div><div class="footer-contact"><b>Let’s build something useful.</b><p>Have a site, product, or workflow that needs to work better?</p><a class="footer-email" href="mailto:depakar418@gmail.com">depakar418@gmail.com</a><div class="footer-actions"><a class="footer-whatsapp-link" href="https://wa.me/919344465429" target="_blank" rel="noopener">Chat on WhatsApp</a><a href="https://www.linkedin.com/in/depakar418" target="_blank" rel="noopener">LinkedIn</a></div><form class="footer-contact-form" action="https://formspree.io/f/mppqjgww" method="POST"><label class="sr-only" for="footer-email">Email address</label><input id="footer-email" type="email" name="email" placeholder="Your email address" required><input type="hidden" name="_subject" value="New portfolio contact from footer"><button type="submit">Contact me</button></form></div><div class="footer-base"><small>© ${new Date().getFullYear()} Depakar B</small><small>WordPress Developer · SEO · AEO · GEO</small></div>`;
